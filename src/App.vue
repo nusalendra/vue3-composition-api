@@ -6,7 +6,7 @@
 </template>
  
 <script>
-import { reactive, ref, computed, toRefs } from "vue"
+import { reactive, ref, watchEffect, computed, toRefs } from "vue"
 
 export default {
   setup() { 
@@ -19,12 +19,17 @@ export default {
     const add = () => {
       addNum.value = 5;
       counter.nilai++;
-    }
+    };
 
+    watchEffect(() => {
+      console.log(counter.nilai)
+    });
+    
     const result = computed({
       get: () => counter.nilai + addNum.value,
       set: (val) => addNum = val
-    })
+    });
+    
     return {
       ...toRefs(counter),
       add,
