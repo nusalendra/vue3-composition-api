@@ -1,50 +1,40 @@
 <template>
-  <div>Count : {{ nilai }}</div>
-  <button @click="add">ADD</button>
+  <UserComponent 
+    :label="label" 
+    :user="user"
+    @submit="onSubmit"
+  />
+
+  <button @click="changeName">Change</button>
 </template>
- 
+
 <script>
-import { reactive, ref, watch, toRefs } from "vue"
+import {ref, reactive} from 'vue';
+import UserComponent from './components/UserComponent.vue';
 
 export default {
-  setup() { 
-    const counter = reactive({
-      nilai: 0
+  components: { UserComponent },
+  setup() {
+    const label = ref('Biodata');
+
+    const user = reactive({
+      name: 'Nusalendra',
+      age: 21
     });
 
-    const num1 = ref(1);
-    const num2 = ref(2);
-
-    const add = () => {
-      num1.value++;
-      num2.value++;
-
-      counter.nilai++;
+    const changeName = () => {
+      user.name = "Citra Resmi"
     };
 
-    // --Akses 1 state menggunakan watch--
-    watch(() => num1, (current, before) => {
-      console.log(num1.value);
-    })
+    const onSubmit = (val) => {
+      console.log(val);
+    }
 
-    // Akses state reactive / object menggunakan watch
-    watch(() => counter.nilai, (current, before) => {
-      console.log(counter.nilai);
-      console.log(current);
-      console.log(before);
-    })
-
-    // Akses beberapa state sekaligus menggunakan watch
-    watch([num1, num2], (current, before) => {
-      console.log(num1.value);
-      console.log(num2.value);
-      console.log(current);
-      console.log(before);
-    })
-    
     return {
-      ...toRefs(counter),
-      add,
+      label,
+      user,
+      changeName,
+      onSubmit
     }
   }
 }
